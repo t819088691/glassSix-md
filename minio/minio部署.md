@@ -1,4 +1,5 @@
 > 1. 从官网直接下载minio二进制可执行文件  
+
 https://min.io/download#/linux  
 选择amd64架构，MINIO SERVER选择binary，下载可执行的二进制文件  
 
