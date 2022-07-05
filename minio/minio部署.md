@@ -28,7 +28,7 @@ https://min.io/download#/linux
 ```shell
 [root@ecm-minio-1 ~]# mkdir /opt/minio  
 [root@ecm-minio-1 ~]# mkdir /data/minio-data  
-[root@ecm-minio-1 ~]# cat /data/minio-data/start.sh  
+[root@ecm-minio-1 ~]# cat /opt/minio/start.sh  
 #!/bin/bash  
 export MINIO_ACCESS_KEY=xxx #填写用户名  
 export MINIO_SECRET_KEY=xxx  #填写密钥  
