@@ -8,19 +8,19 @@ https://min.io/download#/linux
 
 四台节点执行下列操作  
 * 创建/data目录  
-* 使用ext4格式格式化数据盘  
+* 使用xfs格式格式化数据盘  
 * 使用mount命令挂载数据盘至/data目录  
 * 在fstab文件写入配置做持久化挂载
 ```shell  
 [root@ecm-minio-1 ~]# mkdir /data
-[root@ecm-minio-1 ~]# mkfs.ext4 /dev/vdb
+[root@ecm-minio-1 ~]# mkfs.xfs /dev/vdb
 [root@ecm-minio-1 ~]# mount /dev/vdb  /data
 [root@ecm-minio-1 ~]# cat /etc/fstab  
-/dev/vdc /data/                   ext4     defaults        0 0  
+/dev/vdc /data/                   xfs     defaults        0 0  
 ```
 > 3. 配置启动脚本
 
-四台服务器执行下列操作
+四台节点执行下列操作
 
 * 在/opt目录下创建/minio目录，将下载的minio二进制文件移动到此目录
 * 在/data目录下创建/minio-data目录，用于存放数据  
@@ -64,7 +64,7 @@ WantedBy=multi-user.target
 
 > 4. 启动服务
 
-四台服务器顺序执行下列命令  
+四台节点顺序执行下列命令  
 ```shell
 [root@ecm-minio-1 ~]# systemctl start minio
 ```
