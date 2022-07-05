@@ -32,11 +32,11 @@ https://min.io/download#/linux
 #!/bin/bash  
 export MINIO_ACCESS_KEY=xxx #填写用户名  
 export MINIO_SECRET_KEY=xxx  #填写密钥  
-/opt/minio/minio server \  
---console-address ":9001" \  
-http://x.x.x.x/data/minio-data \  
-http://x.x.x.x/data/minio-data \  
-http://x.x.x.x/data/minio-data \  
+/opt/minio/minio server \
+--console-address ":9001" \
+http://x.x.x.x/data/minio-data \
+http://x.x.x.x/data/minio-data \
+http://x.x.x.x/data/minio-data \
 http://x.x.x.x/data/minio-data  
 ```
 配置服务minio-service  
