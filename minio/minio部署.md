@@ -49,6 +49,8 @@ Documentation=https://docs.minio.io/
 [Service]  
 WorkingDirectory=/opt/minio/  
 ExecStart=/opt/minio/start.sh
+ExecStop=/bin/kill -s QUIT $MAINPID
+ExecReload=/bin/kill -HUP $MAINPID
   
 Restart=on-failure  
 RestartSec=5
