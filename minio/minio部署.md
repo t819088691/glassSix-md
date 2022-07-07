@@ -18,7 +18,45 @@ https://min.io/download#/linux
 [root@ecm-minio-1 ~]# cat /etc/fstab  
 /dev/vdc /data/                   xfs     defaults        0 0  
 ```
-> 3. 配置启动脚本
+> 3. 优化系统配置
+
+* 四台节点执行下列操作  
+* 追加sysctl.conf内核参数  
+* 追加ulimits.conf配置  
+```shell
+[root@ecm-minio-1 ~]# cat /etc/sysctl.conf
+fs.file-max = 4194303
+vm.swappiness = 1
+vm.vfs_cache_pressure = 50
+vm.min_free_kbytes = 1000000
+net.ipv4.tcp_timestamps = 0
+net.ipv4.tcp_sack = 1
+net.core.netdev_max_backlog = 250000
+net.core.rmem_max = 4194304
+net.core.wmem_max = 4194304
+net.core.rmem_default = 4194304
+net.core.wmem_default = 4194304
+net.core.optmem_max = 4194304
+net.ipv4.tcp_rmem = 4096 87380 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_low_latency = 1
+net.ipv4.tcp_adv_win_scale = 1
+net.core.somaxconn = 65535
+net.core.netdev_max_backlog = 100000
+net.ipv4.tcp_max_syn_backlog = 4096
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.conf.all.send_redirects = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.tcp_mtu_probing = 1
+[root@ecm-minio-1 ~]# vi /etc/security/limits.conf
+*   soft    nofile         165535
+*   hard    nofile         165535
+*   soft    noproc         165535
+*   hard    noproc         165535
+```
+
+> 4. 配置启动脚本
 
 四台节点执行下列操作
 
@@ -64,13 +102,13 @@ WantedBy=multi-user.target
 [root@ecm-minio-1 ~]# chmod +x /opt/minio/minio
 ```
 
-> 4. 启动服务
+> 5. 启动服务
 
 四台节点顺序执行下列命令  
 ```shell
 [root@ecm-minio-1 ~]# systemctl start minio
 ```
-> 5. 验证访问
+> 6. 验证访问
 
 访问节点任意ip : 9001端口  
 
@@ -80,7 +118,7 @@ WantedBy=multi-user.target
 
 ![buckets](./img/buckets.png)
 
-> 6. 配置监控 
+> 7. 配置监控 
 
 由于minio默认就附带/metrics 监控参数，所以只需要使用minio客户端工具mc生成token，然后在Prometheus配置文件写入即可完成监控  
 
