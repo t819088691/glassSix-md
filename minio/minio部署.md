@@ -15,7 +15,7 @@ https://min.io/download#/linux
 [root@ecm-minio-1 ~]# mkdir /data
 [root@ecm-minio-1 ~]# mkfs.xfs /dev/vdb
 [root@ecm-minio-1 ~]# mount /dev/vdb  /data
-[root@ecm-minio-1 ~]# cat /etc/fstab  
+[root@ecm-minio-1 ~]# vi /etc/fstab  
 /dev/vdc /data/                   xfs     defaults        0 0  
 ```
 > 3. 优化系统配置
@@ -24,7 +24,7 @@ https://min.io/download#/linux
 * 追加sysctl.conf内核参数  
 * 追加ulimits.conf配置  
 ```shell
-[root@ecm-minio-1 ~]# cat /etc/sysctl.conf
+[root@ecm-minio-1 ~]# vi /etc/sysctl.conf
 fs.file-max = 4194303
 vm.swappiness = 1
 vm.vfs_cache_pressure = 50
@@ -66,7 +66,7 @@ net.ipv4.tcp_mtu_probing = 1
 ```shell
 [root@ecm-minio-1 ~]# mkdir /opt/minio  
 [root@ecm-minio-1 ~]# mkdir /data/minio-data  
-[root@ecm-minio-1 ~]# cat /opt/minio/start.sh  
+[root@ecm-minio-1 ~]# vi /opt/minio/start.sh  
 #!/bin/bash  
 export MINIO_ACCESS_KEY=xxx #填写用户名  
 export MINIO_SECRET_KEY=xxx  #填写密钥  
