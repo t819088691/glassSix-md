@@ -22,7 +22,9 @@ wget http://download.redis.io/releases/redis-6.0.6.tar.gz
 [root@redis-1 opt]# yum install cpp binutils glibc glibc-kernheaders glibc-common glibc-devel gcc make  
 [root@redis-1 opt]# yum -y install centos-release-scl  
 [root@redis-1 opt]# yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils  
-[root@redis-1 opt]# echo "source /opt/rh/devtoolset-9/enable" >> /etc/profile  
+[root@redis-1 opt]# echo "source /opt/rh/devtoolset-9/enable" >> /etc/profile
+[root@redis-1 opt]# echo never > /sys/kernel/mm/transparent_hugepage/enabled 
+[root@redis-1 opt]# sysctl -w fs.file-max=100000 
 ```
 4. 编译安装redis  
 三台节点执行下列操作
@@ -117,6 +119,7 @@ replica-priority 100
 acllog-max-len 128
 
 requirepass ds38n829ef023fsdh
+#填写主节点的redis密码
 
 lazyfree-lazy-eviction no
 lazyfree-lazy-expire no
@@ -182,6 +185,16 @@ aof-rewrite-incremental-fsync yes
 rdb-save-incremental-fsync yes
 
 jemalloc-bg-thread yes
+
+maxclients 10000
+
+activedefrag yes
+
+active-defrag-ignore-bytes 150mb
+ 
+active-defrag-threshold-lower 10
+
+active-defrag-threshold-upper 100
 ```
 修改redis-2和redis-3的redis.conf配置文件
 ```shell
@@ -226,8 +239,10 @@ rdb-del-sync-files no
 dir /data
 
 replicaof 10.17.41.138 6379
+#填写主节点的ip 加端口
 
 masterauth ds38n829ef023fsdh
+#填写主节点的密码
 
 replica-serve-stale-data yes
 
@@ -246,6 +261,7 @@ replica-priority 100
 acllog-max-len 128
 
 requirepass ds38n829ef023fsdh
+#从节点redis密码
 
 lazyfree-lazy-eviction no
 lazyfree-lazy-expire no
@@ -311,6 +327,16 @@ aof-rewrite-incremental-fsync yes
 rdb-save-incremental-fsync yes
 
 jemalloc-bg-thread yes
+
+maxclients 10000
+
+activedefrag yes
+
+active-defrag-ignore-bytes 150mb
+ 
+active-defrag-threshold-lower 10
+
+active-defrag-threshold-upper 100
 ```
 7. 构建哨兵模式(可选)
 8. 配置监控
