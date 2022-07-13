@@ -339,6 +339,10 @@ active-defrag-ignore-bytes 150mb
 active-defrag-threshold-lower 10
 
 active-defrag-threshold-upper 100
+```  
+三台节点重启redis服务  
+```shell
+[root@redis-1 opt]# systemctl restart redis
 ```
 7. 构建哨兵模式(可选)
 8. 配置监控
