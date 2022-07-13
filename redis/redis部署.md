@@ -9,7 +9,7 @@ wget http://download.redis.io/releases/redis-6.0.6.tar.gz
 [root@redis-1 opt]# mkfs.xfs /dev/vdb  
 [root@redis-1 opt]# mount /dev/vdb  /data  
 [root@redis-1 opt]# vi /etc/fstab  
-/dev/vdc /data/                   xfs     defaults        0 0    
+/dev/vdb /data/                   xfs     defaults        0 0    
 [root@redis-1 opt]# mkdir /data/redis-data  
 [root@redis-1 opt]# mkdir /data/log  
 
