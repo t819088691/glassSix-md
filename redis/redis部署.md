@@ -31,7 +31,7 @@ wget http://download.redis.io/releases/redis-6.0.6.tar.gz
 ```shell
 [root@redis-1 opt]# tar -zxvf redis-6.0.6.tar.gz  
 [root@redis-1 opt]# cd /opt/redis-6.0.6  
-[root@redis-1 opt]# make PREFIX=/usr/local/redis instal  
+[root@redis-1 opt]# make PREFIX=/usr/local/redis install  
 [root@redis-1 opt]# mkdir /usr/local/redis/conf  
 [root@redis-1 opt]# cp ./redis.conf /usr/local/redis/conf/  
 ```

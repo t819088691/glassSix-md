@@ -31,6 +31,11 @@ elsearch   hard   nproc    4096
 vm.max_map_count=655360
 
 4. 安装es
+
+三台服务器执行下列操作
+[root@es-1 ~]# useradd elsearch  #创建elsearch用户
+[root@es-1 ~]# password elsearch #设置elsearch用户密码
+[root@es-1 ~]# tar -zxvf /opt/elasticsearch-7.8.0-linux-x86_64.tar.gz /opt/
 5. 修改配置
 6. 开启密码
 7. 验证
