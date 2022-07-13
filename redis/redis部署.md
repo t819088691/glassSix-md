@@ -19,10 +19,11 @@ wget http://download.redis.io/releases/redis-6.0.6.tar.gz
 
 ```shell
 [root@redis-1 opt]# hostnamectl set-hostname redis-1  
-[root@redis-1 opt]# yum install cpp binutils glibc glibc-kernheaders glibc-common glibc-devel gcc make  
+[root@redis-1 opt]# yum -y install cpp binutils glibc glibc-kernheaders glibc-common glibc-devel gcc make  
 [root@redis-1 opt]# yum -y install centos-release-scl  
 [root@redis-1 opt]# yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils  
 [root@redis-1 opt]# echo "source /opt/rh/devtoolset-9/enable" >> /etc/profile
+[root@redis-1 opt]# source /etc/profile
 [root@redis-1 opt]# echo never > /sys/kernel/mm/transparent_hugepage/enabled 
 [root@redis-1 opt]# sysctl -w fs.file-max=100000 
 ```
