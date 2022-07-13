@@ -101,6 +101,7 @@ dbfilename dump.rdb
 rdb-del-sync-files no
 
 dir /data
+#配置数据存放路径
 
 replica-serve-stale-data yes
 
@@ -237,6 +238,7 @@ dbfilename dump.rdb
 rdb-del-sync-files no
 
 dir /data
+#配置数据存放路径
 
 replicaof 10.17.41.138 6379
 #填写主节点的ip 加端口
