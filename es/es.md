@@ -22,7 +22,7 @@ https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-8-0
 10.17.41.171 es-3
 [root@es-1 ~]# vi /etc/security/limits.d/90-nproc.conf
 elsearch   soft    nproc    4096
-[root@es-1 ~]# vi /etc/security/limits.conf 
+[root@es-1 ~]# vi /etc/security/limits.conf  
 elsearch   soft   nofile   65536
 elsearch   hard   nofile   131072
 elsearch   soft   nproc    4096

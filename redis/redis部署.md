@@ -346,4 +346,16 @@ active-defrag-threshold-upper 100
 [root@redis-1 opt]# systemctl restart redis
 ```
 7. 构建哨兵模式(可选)
+cp /opt/redis-6.0.6/sentinel.conf  /usr/local/redis/conf/sentinel.conf
+
+修改三处配置
+daemonize yes
+
+sentinel monitor mymaster x.x.x.x 6379 2   #地址填写redis主节点地址，密码填写主节点密码
+
+sentinel auth-pass mymaster [masterpassword]
+
+/usr/local/redis/bin/redis-sentinel  /usr/local/redis/conf/sentinel.conf
+
+
 8. 配置监控
