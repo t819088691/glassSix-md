@@ -4,9 +4,9 @@ https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-8-0
 上传tar包至3台服务器的/opt目录
 2. 配置服务器磁盘  
 三台节点执行下列操作
-[root@es-1 ~]# mkdir /data
-[root@es-1 ~]# mkfs.xfs /dev/vdb 
-[root@es-1 ~]# mount /dev/vdb /data/ 
+[root@es-1 ~]# mkdir /data  
+[root@es-1 ~]# mkfs.xfs /dev/vdb  
+[root@es-1 ~]# mount /dev/vdb /data/     
 [root@es-1 ~]# mkdir -p /data/elasticsearch/logs /data/elasticsearch/data
 [root@es-1 ~]# echo "/dev/vdb /data                   xfs     defaults        0 0" |tee -a  /etc/fstab
 3. 优化服务器配置
