@@ -1,43 +1,88 @@
+1. 配置磁盘，配置文件句柄
+```shell
+[root@rabbitmq-1 ~]# mkdir /data  
+[root@rabbitmq-1 ~]# mkfs.xfs /dev/vdb  
+[root@rabbitmq-1 ~]# mount /dev/vdb /data/     
+[root@rabbitmq-1 ~]# mkdir -p /data/log /data/mnesia
+[root@rabbitmq-1 ~]# echo "/dev/vdb /data                   xfs     defaults        0 0" |tee -a  /etc/fstab
 [root@rabbitmq-1 rabbitmq]# cat /etc/security/limits.conf
 *   soft    nofile         65535
 *   hard    nofile         65535
 *   soft    noproc         65535
 *   hard    noproc         65535
+```
 
-yum install erlang
-systemctl enable rabbitmq-server
-systemctl start rabbitmq-server
-systemctl status rabbitmq-server
-systemctl enable rabbitmq-server
-systemctl enable rabbitmq
-yum install rabbitmq-server
-systemctl enable rabbitmq-server
-systemctl start rabbitmq-server
-systemctl status rabbitmq-server
-Rabbitmq-plugins list
-rabbitmq-plugins list
-rabbitmq-plugins enable rabbitmq_management
-systemctl restart rabbitmq-server.service
-cat /var/lib/rabbitmq/.erlang.cookie
+2. 安装服务并配置
+```shell
+[root@rabbitmq-1 rabbitmq]# yum install erlang
+[root@rabbitmq-1 rabbitmq]# yum install rabbitmq-server
+[root@rabbitmq-1 rabbitmq]# chown -R rabbitmq:rabbitmq  /data/
 
-[root@rabbitmq-1 rabbitmq]# cat rabbitmq-env.conf 
+#配置数据存储路径，日志存储路径
+[root@rabbitmq-1 rabbitmq]# vi /var/lib/rabbitmq/rabbitmq-env.conf 
 RABBITMQ_MNESIA_BASE=/data/mnesia
 RABBITMQ_LOG_BASE=/data/log
-rabbitmqctl  set_vm_memory_high_watermark 0.6
-chown -R rabbitmq:rabbitmq  /data/
-rabbitmqctl list_policies
-rabbitmqctl set_policy ha-all "^" '{"ha-mode":"all"}'
+[root@rabbitmq-1 rabbitmq]# systemctl enable rabbitmq-server
+[root@rabbitmq-1 rabbitmq]# systemctl start rabbitmq-server
+[root@rabbitmq-1 rabbitmq]# systemctl status rabbitmq-server
+[root@rabbitmq-1 rabbitmq]# rabbitmq-plugins list
+[root@rabbitmq-1 rabbitmq]# rabbitmq-plugins enable rabbitmq_management
+```
 
+3. 优化rabbitmq
+```shell
+#添加LimitNOFILE参数
+[root@rabbitmq-1 ~]# vi /usr/lib/systemd/system/rabbitmq-server.service
 
-vi /var/lib/rabbitmq/.erlang.cookie
+[Unit]
+Description=RabbitMQ broker
+After=syslog.target network.target
 
-chmod  777 .erlang.cookie 
-vi .erlang.cookie 
-chmod 400 .erlang.cookie 
-rabbitmqctl stop_app
-rabbitmqctl join_cluster rabbit@rabbitmq-1
-rabbitmqctl start_app
-rabbitmqctl change_cluster_node_type ram
-rabbitmqctl start_app
-rabbitmqctl  status 
-rabbitmqctl  set_vm_memory_high_watermark 0.6
+[Service]
+LimitNOFILE=65535
+Type=notify
+User=rabbitmq
+Group=rabbitmq
+WorkingDirectory=/var/lib/rabbitmq
+ExecStart=/usr/lib/rabbitmq/bin/rabbitmq-server
+ExecStop=/usr/lib/rabbitmq/bin/rabbitmqctl stop
+
+[Install]
+WantedBy=multi-user.target
+
+#优化内核
+[root@rabbitmq-1 ~]# vi /etc/sysctl.conf 
+fs.file-max=655350
+
+#增加节点内存可用水位
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
+```
+
+4. 构建rabbitmq集群  
+
+```shell
+#查看主节点的cookie
+[root@rabbitmq-1 rabbitmq]# cat /var/lib/rabbitmq/.erlang.cookie
+VKSCUUJNSTEBMSJADHPL
+
+#将cookie写入两台从节点，并修改权限为400
+[root@rabbitmq-2 rabbitmq]# chmod  777 /var/lib/rabbitmq/.erlang.cookie 
+[root@rabbitmq-2 rabbitmq]# vi .erlang.cookie 
+[root@rabbitmq-2 rabbitmq]# chmod 400 .erlang.cookie 
+[root@rabbitmq-2 rabbitmq]# rabbitmqctl stop_app
+
+#加入集群
+[root@rabbitmq-2 rabbitmq]# rabbitmqctl join_cluster rabbit@rabbitmq-1
+[root@rabbitmq-2 rabbitmq]# rabbitmqctl start_app
+
+#修改节点类型为内存节点
+[root@rabbitmq-2 rabbitmq]# rabbitmqctl change_cluster_node_type ram
+
+#增加节点内存可用水位
+[root@rabbitmq-2 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
+
+#在主节点增加策略
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl list_policies
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl set_policy ha-all "^" '{"ha-mode":"all"}'
+```
+5. 登录验证
