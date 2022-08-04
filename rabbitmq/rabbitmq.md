@@ -1,5 +1,7 @@
 1. 配置磁盘，配置文件句柄
+
 ```shell
+#在三台服务器配置磁盘挂载
 [root@rabbitmq-1 ~]# mkdir /data  
 [root@rabbitmq-1 ~]# mkfs.xfs /dev/vdb  
 [root@rabbitmq-1 ~]# mount /dev/vdb /data/     
@@ -13,12 +15,14 @@
 ```
 
 2. 安装服务并配置
+
 ```shell
+#在三台节点安装rabbitmq服务
 [root@rabbitmq-1 rabbitmq]# yum install erlang
 [root@rabbitmq-1 rabbitmq]# yum install rabbitmq-server
 [root@rabbitmq-1 rabbitmq]# chown -R rabbitmq:rabbitmq  /data/
 
-#配置数据存储路径，日志存储路径
+#在三台节点配置数据存储路径，日志存储路径
 [root@rabbitmq-1 rabbitmq]# vi /var/lib/rabbitmq/rabbitmq-env.conf 
 RABBITMQ_MNESIA_BASE=/data/mnesia
 RABBITMQ_LOG_BASE=/data/log
@@ -30,8 +34,9 @@ RABBITMQ_LOG_BASE=/data/log
 ```
 
 3. 优化rabbitmq
+
 ```shell
-#添加LimitNOFILE参数
+#在三台节点添加LimitNOFILE参数
 [root@rabbitmq-1 ~]# vi /usr/lib/systemd/system/rabbitmq-server.service
 
 [Unit]
@@ -50,17 +55,20 @@ ExecStop=/usr/lib/rabbitmq/bin/rabbitmqctl stop
 [Install]
 WantedBy=multi-user.target
 
-#优化内核
+#在三台节点从节点优化内核
 [root@rabbitmq-1 ~]# vi /etc/sysctl.conf 
 fs.file-max=655350
 
-#增加节点内存可用水位
-[root@rabbitmq-1 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
+
 ```
 
 4. 构建rabbitmq集群  
 
 ```shell
+
+#增加节点内存可用水位
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
+
 #查看主节点的cookie
 [root@rabbitmq-1 rabbitmq]# cat /var/lib/rabbitmq/.erlang.cookie
 VKSCUUJNSTEBMSJADHPL
@@ -71,18 +79,19 @@ VKSCUUJNSTEBMSJADHPL
 [root@rabbitmq-2 rabbitmq]# chmod 400 .erlang.cookie 
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl stop_app
 
-#加入集群
+#将两台从节点加入集群
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl join_cluster rabbit@rabbitmq-1
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl start_app
 
-#修改节点类型为内存节点
+#将两台从节点修改节点类型为内存节点
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl change_cluster_node_type ram
 
-#增加节点内存可用水位
+#将两台从节点增加节点内存可用水位
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
 
 #在主节点增加策略
 [root@rabbitmq-1 rabbitmq]# rabbitmqctl list_policies
 [root@rabbitmq-1 rabbitmq]# rabbitmqctl set_policy ha-all "^" '{"ha-mode":"all"}'
 ```
+
 5. 登录验证
