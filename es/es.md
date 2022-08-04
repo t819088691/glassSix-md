@@ -40,6 +40,8 @@ net.ipv4.tcp_tw_recycle = 1
 net.ipv4.tcp_max_tw_buckets = 15000
 net.core.somaxconn = 65535
 vm.max_map_count = 262144
+
+[root@es-1 ~]# sysctl -p
 ```
 4. 安装es
 
