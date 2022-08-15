@@ -20,11 +20,11 @@ version.BuildInfo{Version:"2.2.1", GitCommit:"c056977c", GitTreeState:"", GoVers
 
 2. 编辑配置文件，批量编辑k8s服务器
 
-编辑k8s-ansible文件夹中的host.init文件  
-在all填写所有节点的主机名和ip  
-在master填写master节点主机名  
-在worker填写worker节点主机名  
-在all:vars 填写所有节点的ssh端口，填写所有节点的用户名和密码
+* 编辑k8s-ansible文件夹中的host.init文件  
+* 在all填写所有节点的主机名和ip  
+* 在master填写master节点主机名  
+* 在worker填写worker节点主机名  
+* 在all:vars 填写所有节点的ssh端口，填写所有节点的用户名和密码
 
 ```shell
 [all]
@@ -81,9 +81,9 @@ master
 worker
 #newnode
 ```
-3. 初始化k8s服务器
-上传编辑修改后的ansible剧本k8s-ansible.zip  
-使用unzip解压然后cd至k8s-ansible 目录  
+3. 初始化k8s服务器  
+* 上传编辑修改后的ansible剧本k8s-ansible.zip  
+* 使用unzip解压然后cd至k8s-ansible 目录  
 ```shell
 [root@dlj-ecs-prometheus opt]# unzip k8s-ansible.zip 
 Archive:  k8s-ansible.zip
@@ -215,10 +215,10 @@ k8s-worker9                : ok=6    changed=5    unreachable=0    failed=0    s
 ```
 4. 编辑集群配置文件
 
-在hosts中填写所有节点的ip和用户名密码  
-spec.roleGroups.etcd 和spec.roleGroups.control-plane 填写3台master的name  
-在sepc.etcd中填写3台master节点的ip用逗号加空格分割  
-取消 internalLoadbalancer: haproxy 的注释  
+* 在hosts中填写所有节点的ip和用户名密码  
+* spec.roleGroups.etcd 和spec.roleGroups.control-plane 填写3台master的name  
+* 在sepc.etcd中填写3台master节点的ip用逗号加空格分割  
+* 取消 internalLoadbalancer: haproxy 的注释  
 ```yaml
 apiVersion: kubekey.kubesphere.io/v1alpha2
 kind: Cluster
