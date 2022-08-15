@@ -609,4 +609,35 @@ downloading amd64 kubeadm v1.22.10 ...
 ```
 6. 验证登录
 
+浏览器访问http://10.17.46.31:30880 验证集群是否正常
+```shell
+#####################################################
+###              Welcome to KubeSphere!           ###
+#####################################################
+
+Console: http://10.17.46.31:30880
+Account: admin
+Password: P@88w0rd
+
+NOTES：
+  1. After you log into the console, please check the
+     monitoring status of service components in
+     "Cluster Management". If any service is not
+     ready, please wait patiently until all components 
+     are up and running.
+  2. Please change the default password after login.
+
+#####################################################
+https://kubesphere.io             2022-08-15 11:53:22
+#####################################################
+11:53:23 CST skipped: [k8s-master3]
+11:53:23 CST skipped: [k8s-master2]
+11:53:23 CST success: [k8s-master1]
+11:53:23 CST Pipeline[CreateClusterPipeline] execute successfully
+Installation is complete.
+
+Please check the result using the command:
+
+	kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=ks-installer -o jsonpath='{.items[0].metadata.name}') -f
+```
 7. 开启相关插件
