@@ -16,6 +16,7 @@ ansible 2.9.27
 kk
 [root@dlj-ecs-prometheus opt]# ./kk  version
 version.BuildInfo{Version:"2.2.1", GitCommit:"c056977c", GitTreeState:"", GoVersion:"go1.17.11"}
+[root@dlj-ecs-prometheus opt]# export KKZONE=cn
 ```
 
 2. 编辑配置文件，批量编辑k8s服务器
