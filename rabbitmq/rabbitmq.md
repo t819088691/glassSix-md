@@ -10,8 +10,8 @@
 [root@rabbitmq-1 rabbitmq]# cat /etc/security/limits.conf
 *   soft    nofile         65535
 *   hard    nofile         65535
-*   soft    noproc         65535
-*   hard    noproc         65535
+*   soft    nproc         65535
+*   hard    nproc         65535
 ```
 
 2. 安装服务并配置
@@ -23,7 +23,7 @@
 [root@rabbitmq-1 rabbitmq]# chown -R rabbitmq:rabbitmq  /data/
 
 #在三台节点配置数据存储路径，日志存储路径
-[root@rabbitmq-1 rabbitmq]# vi /var/lib/rabbitmq/rabbitmq-env.conf 
+[root@rabbitmq-1 rabbitmq]# vi /etc/rabbitmq/rabbitmq-env.conf 
 RABBITMQ_MNESIA_BASE=/data/mnesia
 RABBITMQ_LOG_BASE=/data/log
 [root@rabbitmq-1 rabbitmq]# systemctl enable rabbitmq-server
