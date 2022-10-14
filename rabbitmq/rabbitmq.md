@@ -18,8 +18,10 @@
 
 ```shell
 #在三台节点安装rabbitmq服务
-[root@rabbitmq-1 rabbitmq]# yum install erlang
-[root@rabbitmq-1 rabbitmq]# yum install rabbitmq-server
+下载erlang和rabbitmq-server的rpm包，并同时上传到3台服务器/opt目录
+
+[root@rabbitmq-1 rabbitmq]# yum install /opt/erlang-23.3.4.6-1.el7.x86_64.rpm
+[root@rabbitmq-1 rabbitmq]# yum install rabbitmq-server-3.9.15-1.el7.noarch.rpm
 [root@rabbitmq-1 rabbitmq]# chown -R rabbitmq:rabbitmq  /data/
 
 #在三台节点配置数据存储路径，日志存储路径

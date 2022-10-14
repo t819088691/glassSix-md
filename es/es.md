@@ -1,5 +1,5 @@
 1. 从es官网下载tar包
-https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-8-0
+https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-17-6
 ![download](./img/download.jpg)
 上传tar包至3台服务器的/opt目录
 2. 配置服务器磁盘  
