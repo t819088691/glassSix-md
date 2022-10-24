@@ -91,6 +91,11 @@ VKSCUUJNSTEBMSJADHPL
 #将两台从节点增加节点内存可用水位
 [root@rabbitmq-2 rabbitmq]# rabbitmqctl  set_vm_memory_high_watermark 0.6
 
+#在主节点配置用户登录rabbitmq web
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl add_user 【用户名】 【密码】
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl set_user_tags 【用户名】 administrator
+[root@rabbitmq-1 rabbitmq]# rabbitmqctl set_permissions -p / 【用户名】 ".*" ".*" ".*"
+
 #在主节点增加策略
 [root@rabbitmq-1 rabbitmq]# rabbitmqctl list_policies
 [root@rabbitmq-1 rabbitmq]# rabbitmqctl set_policy ha-all "^" '{"ha-mode":"all"}'
