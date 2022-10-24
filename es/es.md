@@ -50,8 +50,8 @@ vm.max_map_count = 262144
 [root@es-1 ~]# useradd elsearch  #创建elsearch用户
 [root@es-1 ~]# passwd elsearch #设置elsearch用户密码
 [root@es-1 ~]# cd /opt
-[root@es-1 ~]# tar -zxvf /opt/elasticsearch-7.8.0-linux-x86_64.tar.gz
-[root@es-1 ~]# mv /opt/elasticsearch-7.8.0 /usr/local/elasticsearch
+[root@es-1 ~]# tar -zxvf /opt/elasticsearch-7.17.6-linux-x86_64.tar.gz
+[root@es-1 ~]# mv /opt/elasticsearch-7.17.6 /usr/local/elasticsearch
 [root@es-1 ~]# chown -R  elsearch:elsearch /usr/local/elasticsearch
 [root@es-1 ~]# chown -R elsearch:elsearch /data/elasticsearch
 ```
