@@ -11,80 +11,20 @@ ansible 2.9.27
   executable location = /usr/bin/ansible
   python version = 2.7.5 (default, Apr 11 2018, 07:36:10) [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)]
 
-上传 kubekey-v2.2.1-linux-amd64.tar 压缩包到部署机
+上传 kubekey-v2.2.1-linux-amd64.tar 压缩包到部署机/opt目录
 [root@dlj-ecs-prometheus opt]# tar -zxvf kubekey-v2.2.1-linux-amd64.tar.gz
 kk
 [root@dlj-ecs-prometheus opt]# ./kk  version
 version.BuildInfo{Version:"2.2.1", GitCommit:"c056977c", GitTreeState:"", GoVersion:"go1.17.11"}
 [root@dlj-ecs-prometheus opt]# export KKZONE=cn
-```
+```  
 
-2. 编辑配置文件，批量编辑k8s服务器
+2. 初始化k8s服务器  
 
-* 编辑k8s-ansible文件夹中的host.init文件  
-* 在all填写所有节点的主机名和ip  
-* 在master填写master节点主机名  
-* 在worker填写worker节点主机名  
-* 在all:vars 填写所有节点的ssh端口，填写所有节点的用户名和密码
-
-```shell
-[all]
-k8s-master1 ansible_host=10.17.46.31 ip=10.17.46.31
-k8s-master2 ansible_host=10.17.46.32 ip=10.17.46.32
-k8s-master3 ansible_host=10.17.46.33 ip=10.17.46.33
-k8s-worker1 ansible_host=10.17.46.34 ip=10.17.46.34
-k8s-worker2 ansible_host=10.17.46.35 ip=10.17.46.35
-k8s-worker3 ansible_host=10.17.46.36 ip=10.17.46.36
-k8s-worker4 ansible_host=10.17.46.37 ip=10.17.46.37
-k8s-worker5 ansible_host=10.17.46.38 ip=10.17.46.38
-k8s-worker6 ansible_host=10.17.46.39 ip=10.17.46.39
-k8s-worker7 ansible_host=10.17.46.40 ip=10.17.46.40
-k8s-worker8 ansible_host=10.17.46.41 ip=10.17.46.41
-k8s-worker9 ansible_host=10.17.46.42 ip=10.17.46.42
-k8s-worker10 ansible_host=10.17.46.43 ip=10.17.46.43
-k8s-worker11 ansible_host=10.17.46.44 ip=10.17.46.44
-k8s-worker12 ansible_host=10.17.46.45 ip=10.17.46.45
-k8s-worker13 ansible_host=10.17.46.46 ip=10.17.46.46
-k8s-worker14 ansible_host=10.17.46.47 ip=10.17.46.47
-k8s-worker15 ansible_host=10.17.46.48 ip=10.17.46.48
-[all:vars]
-ansible_ssh_user=root 
-ansible_ssh_port=22 
-ansible_ssh_pass="SzsbngChj@1234"
-
-[master]
-k8s-master1
-k8s-master2
-k8s-master3
-
-[worker]
-k8s-worker1
-k8s-worker2
-k8s-worker3
-k8s-worker4
-k8s-worker5
-k8s-worker6
-k8s-worker7
-k8s-worker8
-k8s-worker9
-k8s-worker10
-k8s-worker11
-k8s-worker12
-k8s-worker13
-k8s-worker14
-k8s-worker15
-
-
-[newnode]
-
-[k8s:children]
-master
-worker
-#newnode
-```
-3. 初始化k8s服务器  
 * 上传编辑修改后的ansible剧本k8s-ansible.zip  
+
 * 使用unzip解压然后cd至k8s-ansible 目录  
+
 ```shell
 [root@dlj-ecs-prometheus opt]# unzip k8s-ansible.zip 
 Archive:  k8s-ansible.zip
@@ -144,6 +84,71 @@ Archive:  k8s-ansible.zip
 [root@dlj-ecs-prometheus k8s-ansible]# ls
 config-sample.yaml  group_vars  hosts.ini  init-master.yaml  init-worker.yaml  roles
 ```
+3. 编辑配置文件，批量编辑k8s服务器
+
+* 编辑k8s-ansible文件夹中的host.init文件  
+* 在all填写所有节点的主机名和ip  
+* 在master填写master节点主机名  
+* 在worker填写worker节点主机名  
+* 在all:vars 填写所有节点的ssh端口，填写所有节点的用户名和密码
+
+```shell
+[root@dlj-ecs-prometheus k8s-ansible]# vi host.init
+[all]
+k8s-master1 ansible_host=10.17.46.31 ip=10.17.46.31
+k8s-master2 ansible_host=10.17.46.32 ip=10.17.46.32
+k8s-master3 ansible_host=10.17.46.33 ip=10.17.46.33
+k8s-worker1 ansible_host=10.17.46.34 ip=10.17.46.34
+k8s-worker2 ansible_host=10.17.46.35 ip=10.17.46.35
+k8s-worker3 ansible_host=10.17.46.36 ip=10.17.46.36
+k8s-worker4 ansible_host=10.17.46.37 ip=10.17.46.37
+k8s-worker5 ansible_host=10.17.46.38 ip=10.17.46.38
+k8s-worker6 ansible_host=10.17.46.39 ip=10.17.46.39
+k8s-worker7 ansible_host=10.17.46.40 ip=10.17.46.40
+k8s-worker8 ansible_host=10.17.46.41 ip=10.17.46.41
+k8s-worker9 ansible_host=10.17.46.42 ip=10.17.46.42
+k8s-worker10 ansible_host=10.17.46.43 ip=10.17.46.43
+k8s-worker11 ansible_host=10.17.46.44 ip=10.17.46.44
+k8s-worker12 ansible_host=10.17.46.45 ip=10.17.46.45
+k8s-worker13 ansible_host=10.17.46.46 ip=10.17.46.46
+k8s-worker14 ansible_host=10.17.46.47 ip=10.17.46.47
+k8s-worker15 ansible_host=10.17.46.48 ip=10.17.46.48
+[all:vars]
+ansible_ssh_user=root 
+ansible_ssh_port=22 
+ansible_ssh_pass="SzsbngChj@1234"
+
+[master]
+k8s-master1
+k8s-master2
+k8s-master3
+
+[worker]
+k8s-worker1
+k8s-worker2
+k8s-worker3
+k8s-worker4
+k8s-worker5
+k8s-worker6
+k8s-worker7
+k8s-worker8
+k8s-worker9
+k8s-worker10
+k8s-worker11
+k8s-worker12
+k8s-worker13
+k8s-worker14
+k8s-worker15
+
+
+[newnode]
+
+[k8s:children]
+master
+worker
+#newnode
+```
+
 测试部署机与集群的连通性
 ```shell
 [root@dlj-ecs-prometheus k8s-ansible]# ansible -i hosts.ini all -m shell -a "hostname"
@@ -184,6 +189,34 @@ dljb-k8s-worker-14.novalocal
 k8s-worker13 | CHANGED | rc=0 >>
 dljb-k8s-worker-13.novalocal
 ```
+确定节点的数据盘盘号，当前节点数据盘为sda
+```shell
+[root@dlj-ecs-prometheus k8s-ansible]# lsblk 
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0    1T  0 disk 
+sr0              11:0    1 1024M  0 rom  
+vda             252:0    0   50G  0 disk 
+├─vda1          252:1    0    1G  0 part /boot
+└─vda2          252:2    0   49G  0 part 
+  ├─centos-root 253:0    0   45G  0 lvm  /
+  └─centos-swap 253:1    0    4G  0 lvm  [SWAP]
+
+修改脚本
+[root@dlj-ecs-prometheus k8s-ansible]# vi roles/8_config_disk/files/config_disk.sh
+
+#!/bin/bash
+mkdir -p /var/lib/containerd
+#修改为对应盘符sda
+mkfs.xfs   /dev/sda
+#修改为对应盘符sda
+mount /dev/sda /var/lib/containerd
+#修改为对应盘符sda
+echo "/dev/sda /var/lib/containerd                       xfs     defaults        0 0" |tee -a  /etc/fstab
+echo "export KKZONE=cn" |tee  -a /etc/profile
+source /etc/profile
+systemctl enable --now iscsid
+```
+
 初始化master节点
 ```shell
 [root@dlj-ecs-prometheus k8s-ansible]# ansible-playbook -i hosts.ini  init-master.yaml
@@ -220,6 +253,10 @@ k8s-worker9                : ok=6    changed=5    unreachable=0    failed=0    s
 * spec.roleGroups.etcd 和spec.roleGroups.control-plane 填写3台master的name  
 * 在sepc.etcd中填写3台master节点的ip用逗号加空格分割  
 * 取消 internalLoadbalancer: haproxy 的注释  
+
+```shell
+[root@dlj-ecs-prometheus k8s-ansible]# vi config-sample.yaml
+```
 ```yaml
 apiVersion: kubekey.kubesphere.io/v1alpha2
 kind: Cluster
@@ -640,4 +677,4 @@ Please check the result using the command:
 
 	kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=ks-installer -o jsonpath='{.items[0].metadata.name}') -f
 ```
-7. 开启相关插件
+

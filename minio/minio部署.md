@@ -17,6 +17,9 @@ https://min.io/download#/linux
 [root@ecm-minio-1 ~]# mount /dev/vdb  /data
 [root@ecm-minio-1 ~]# vi /etc/fstab  
 /dev/vdc /data/                   xfs     defaults        0 0  
+[root@ecm-minio-1 ~]# systemctl disable firewalld --now
+[root@ecm-minio-1 ~]# setenforce 0
+[root@ecm-minio-1 ~]# sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 ```
 > 3. 优化系统配置
 
