@@ -12,6 +12,9 @@ wget http://download.redis.io/releases/redis-6.0.6.tar.gz
 /dev/vdb /data/                   xfs     defaults        0 0    
 [root@redis-1 opt]# mkdir /data/redis-data  
 [root@redis-1 opt]# mkdir /data/log  
+[root@redis-1 ~]# systemctl disable firewalld --now
+[root@redis-1 ~]# setenforce 0
+[root@redis-1 ~]# sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
 ```
 3. 优化系统配置  

@@ -10,6 +10,9 @@ https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-17-6
 [root@es-1 ~]# mount /dev/vdb /data/     
 [root@es-1 ~]# mkdir -p /data/elasticsearch/logs /data/elasticsearch/data
 [root@es-1 ~]# echo "/dev/vdb /data                   xfs     defaults        0 0" |tee -a  /etc/fstab
+[root@es-1 ~]# systemctl disable firewalld --now
+[root@es-1 ~]# setenforce 0
+[root@es-1 ~]# sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 ```
 3. 优化服务器配置
 分别修改三台节点的主机名
