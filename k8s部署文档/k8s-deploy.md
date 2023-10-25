@@ -518,7 +518,7 @@ spec:
 ```
 5. 使用kk工具部署集群
 ```shell
-[root@dlj-ecs-prometheus opt]# ./kk  create cluster -f C环境-k8s-ansible/config-sample.yaml 
+[root@dlj-ecs-prometheus opt]# ./kk  create cluster -f k8s-ansible/config-sample.yaml 
 
 
  _   __      _          _   __           
