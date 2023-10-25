@@ -12,6 +12,10 @@ ansible 2.9.27
   python version = 2.7.5 (default, Apr 11 2018, 07:36:10) [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)]
 
 上传 kubekey-v2.2.1-linux-amd64.tar 压缩包到部署机/opt目录
+[root@dlj-ecs-prometheus /]# vi /etc/ansible/ansible.cfg
+#修改地71行配置
+host_key_checking = False
+
 [root@dlj-ecs-prometheus opt]# tar -zxvf kubekey-v2.2.1-linux-amd64.tar.gz
 kk
 [root@dlj-ecs-prometheus opt]# ./kk  version
